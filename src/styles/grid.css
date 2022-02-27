@@ -1,8 +1,30 @@
 .grid {
   width: 20px;
   height: 20px;
-  border: 2px solid red;
+  border: 1px solid rgb(39, 1, 1);
   padding: 10px;
   text-align: center;
   margin: 2px;
+  position: relative;
+}
+
+.animationBack {
+  animation-name: back;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+}
+.back {
+  position: absolute;
+  visibility: hidden;
+  backface-visibility: hidden;
+}
+@keyframes back {
+  from {
+    transform: rotateY(180deg);
+    transition: transform 1.2s;
+    transform-style: preserve-3d;
+  }
+  to {
+    visibility: visible;
+  }
 }
