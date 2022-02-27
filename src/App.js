@@ -1,6 +1,6 @@
 import "./App.css"
-import "./components/tablero"
-import Tablero from "./components/tablero"
+import "./components/board"
+import Tablero from "./components/board"
 function App() {
   return (
     <div className="App">
