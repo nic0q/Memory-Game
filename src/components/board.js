@@ -12,49 +12,57 @@ const grid_positions = shuffle([
 const Grid = ({ classNames, content }) => {
   return <div className={classNames}>{content}</div>
 }
-const arr = Array(16).fill(0)
+const arr = Array(16).fill(0) // 0 means: not fliped, 1 means: fliped, 2 means: fliped and yellow
+
 export default function Tablero() {
   const [fliped, setFliped] = useState([])
-  const [reset, setReset] = useState(false)
 
   console.log(grid_positions)
-
   const play = (card) => {
-    setReset(false)
     setFliped(() => [...fliped, card])
     arr[card] = 1
   }
-  if (fliped.length === 2) {
-    if (emojis()[fliped[0]] === emojis()[fliped[1]]) {
-      console.log("correct")
-    } else {
-      console.log("inco")
-      arr[fliped[0]] = 0
-      arr[fliped[1]] = 0
-      arr[fliped[2]] = 0
+
+  const gamePlay = () => {
+    if (fliped.length === 2) {
+      if (emojis()[fliped[0]] !== emojis()[fliped[1]]) {
+        arr[fliped[0]] = 2
+        arr[fliped[1]] = 2
+      }
+    } else if ( fliped.length === 3) {
+      if (arr[fliped[0]] !== 2 && emojis()[fliped[0]] === emojis()[fliped[1]]) {
+        arr[fliped[0]] = 1
+        arr[fliped[1]] = 1
+      } else {
+        console.log("inco")
+        arr[fliped[0]] = 0
+        arr[fliped[1]] = 0
+      }
+      setFliped([fliped[2]])
     }
-    setFliped([])
-    setReset(true)
   }
-  console.log(fliped)
+  gamePlay()
+
   return (
     <div className="board">
       {grid_positions.map((n) => {
         return arr[n] === 1 ? (
-          <div key={n} onClick={() => play(n)}>
+          <div key={n}>
             <Grid
               content={emojis()[n]}
-              // reset={reset}
               classNames={"grid animationBack"}
+            ></Grid>
+          </div>
+        ) : arr[n] === 2 ? (
+          <div key={n}>
+            <Grid
+              content={emojis()[n]}
+              classNames={"grid correct animationBack"}
             ></Grid>
           </div>
         ) : (
           <div key={n} onClick={() => play(n)}>
-            <Grid
-              content={""}
-              // reset={reset}
-              classNames={"grid"}
-            ></Grid>
+            <Grid content={""} classNames={"grid"}></Grid>
           </div>
         )
       })}

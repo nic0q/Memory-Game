@@ -7,7 +7,9 @@
   margin: 2px;
   position: relative;
 }
-
+.correct{
+  border: 1px solid rgb(196, 37, 37);
+}
 .animationBack {
   animation-name: back;
   animation-duration: 1s;
