@@ -2,13 +2,26 @@
   width: 20px;
   height: 20px;
   border: 1px solid rgb(39, 1, 1);
-  padding: 10px;
+  border-radius: 22px;
+  padding: 12px;
+  text-align: center;
+  justify-content: center;
+  margin: 2px;
+  position: relative;
+}
+.front{
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgb(39, 1, 1);
+  border-radius: 22px;
+  padding: 12px;
   text-align: center;
   margin: 2px;
   position: relative;
 }
-.correct{
-  border: 1px solid rgb(196, 37, 37);
+.grid:hover{
+  background-color: rgb(39, 36, 38);
+  border: none;
 }
 .animationBack {
   animation-name: back;
@@ -19,6 +32,9 @@
   position: absolute;
   visibility: hidden;
   backface-visibility: hidden;
+}
+.backGr{
+  background-color: black;
 }
 @keyframes back {
   from {
