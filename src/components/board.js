@@ -16,22 +16,30 @@ const arr = Array(16).fill(0) // 0 means: not fliped, 1 means: fliped, 2 means: 
 export default function Tablero() {
   const [fliped, setFliped] = useState([])
   const [counter, setCounter] = useState(0)
-  const [reset, setReset] = useState(false)
-  const [turn, setTurn] = useState(false)
+  const [reset, setReset] = useState(fliped.length !== 1 ? false : true)
+  const [time, setTime] = useState(fliped.length !== 1 ? false : true)
+
   const play = (card) => {
     setFliped(() => [...fliped, card])
+    if (fliped.length === 1) {
+      setReset(true)
+    } else {
+      setReset(false)
+      setTime(false)
+    }
     arr[card] = 1
     setCounter(() => counter + 1)
   }
-
   const gamePlay = () => {
     if (fliped.length === 2) {
       if (emojis()[fliped[0]] !== emojis()[fliped[1]]) {
         arr[fliped[0]] = 2
         arr[fliped[1]] = 2
+        console.log("bad idea")
       }
     } else if (fliped.length === 3) {
       if (emojis()[fliped[0]] === emojis()[fliped[1]]) {
+        setReset(false)
         arr[fliped[0]] = 1
         arr[fliped[1]] = 1
       } else {
@@ -40,18 +48,18 @@ export default function Tablero() {
       }
       setFliped([fliped[2]])
     }
-    console.log(arr)
   }
 
   gamePlay()
   useEffect(() => {
-    if (fliped.length === 2) {
-      setTurn(true)
+    if (reset) {
       setTimeout(() => {
-        setReset(true)
+        setTime(true)
+        console.log("ABN")
       }, 2000)
+      setTime(false)
     }
-  }, [reset, fliped])
+  }, [reset])
 
   return (
     <div>
@@ -64,7 +72,7 @@ export default function Tablero() {
                 classNames={"front animationBack"}
               ></Grid>
             </div>
-          ) : reset && arr[n] === 2 ? (
+          ) : time ? (
             <div key={n} onClick={() => play(n)}>
               <Grid content={""} classNames={"grid backGr"}></Grid>
             </div>
@@ -74,10 +82,6 @@ export default function Tablero() {
                 content={emojis()[n]}
                 classNames={"front animationBack"}
               ></Grid>
-            </div>
-          ) : turn ? (
-            <div key={n}>
-              <Grid content={""} classNames={"grid backGr"}></Grid>
             </div>
           ) : (
             <div key={n} onClick={() => play(n)}>
