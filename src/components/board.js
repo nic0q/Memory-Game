@@ -5,7 +5,8 @@ import "../styles/board.css"
 import { useState, useEffect } from "react"
 import "../styles/grid.css"
 import Grid from "./Grid"
-import Moves from "./Moves"
+import Options from "./Options"
+import Title from "./Title"
 
 const grid_positions = shuffle([
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
@@ -31,6 +32,7 @@ export default function Tablero() {
     setCounter(() => counter + 1)
   }
   const gamePlay = () => {
+    console.log(arr)
     if (fliped.length === 2) {
       if (emojis()[fliped[0]] !== emojis()[fliped[1]]) {
         arr[fliped[0]] = 2
@@ -62,7 +64,8 @@ export default function Tablero() {
   }, [reset])
 
   return (
-    <div>
+    <div className="play">
+      <Title></Title>
       <div className="board">
         {grid_positions.map((n) => {
           return arr[n] === 1 ? (
@@ -89,9 +92,7 @@ export default function Tablero() {
             </div>
           )
         })}
-      </div>
-      <div>
-        <Moves moves={counter}></Moves>
+        <Options counter={counter}></Options>
       </div>
     </div>
   )
