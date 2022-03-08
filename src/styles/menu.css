@@ -1,0 +1,11 @@
+.menu{
+  
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  zoom: 280%;
+}
+.symbols{
+  display: flex;
+}

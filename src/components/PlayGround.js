@@ -1,13 +1,13 @@
 import Board from "./Board"
 
-export default function PlayGround() {
+export default function PlayGround({ tokens }) {
   return (
     <div className="PlayGround">
       <div>
-      <br></br> 
-      <br></br> 
+        <br></br>
+        <br></br>
       </div>
-      <Board></Board>
+      <Board tokens={tokens}></Board>
     </div>
   )
 }

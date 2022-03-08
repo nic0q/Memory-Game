@@ -1,5 +1,5 @@
-import characters from "../services/tokens/emojis"
-// import characters from "../services/tokens/characters" // Characters for use in memory game
+import { signs } from "../services/tokens/characters"
+import { emojis } from "../services/tokens/emojis" // Characters for use in memory game
 import shufflePositions from "../utilities/shuffleList"
 import "../styles/board.css"
 import "../styles/grid.css"
@@ -11,8 +11,10 @@ import Button from "./Button"
 
 let grid_positions = shufflePositions()
 const arr = Array(16).fill(0) // 0 means: not fliped, 1 means: fliped, 2 means: fliped and yellow
+let characters = [] // Characters array for symbols in memory game
 
-export default function Tablero() {
+export default function Board({ tokens }) {
+  tokens === 1 ? (characters = emojis) : (characters = signs)
   const [play1, setPlay1] = useState(false)
   const [play2, setPlay2] = useState(false)
   const [cardsFliped, setCardsFliped] = useState([])
@@ -33,7 +35,7 @@ export default function Tablero() {
 
   useEffect(() => {
     if (play1 && play2) {
-      if (characters()[cardsFliped[0]] === characters()[cardsFliped[1]]) {
+      if (characters[cardsFliped[0]] === characters[cardsFliped[1]]) {
         arr[cardsFliped[0]] = 2
         arr[cardsFliped[1]] = 2
         setPlay1(false)
@@ -65,7 +67,9 @@ export default function Tablero() {
   return (
     <div className="play">
       <div className="buttons">
-        <div onClick={restart} ><Button name="Restart" styles="restart"></Button></div>
+        <div onClick={restart}>
+          <Button name="Restart" styles="restart"></Button>
+        </div>
         <Button name="NewGame" onClick={restart} styles="newGame"></Button>
       </div>
       <br></br>
@@ -74,7 +78,7 @@ export default function Tablero() {
           return arr[n] === 1 || arr[n] === 2 ? ( //
             <div key={n}>
               <Grid
-                content={characters()[n]}
+                content={characters[n]}
                 classNames={"grid green animationBack"}
               ></Grid>
             </div>
@@ -89,8 +93,8 @@ export default function Tablero() {
           )
         })}
       </div>
-        <br></br>
-        <Score moves={moves}></Score>   
+      <br></br>
+      <Score moves={moves}></Score>
     </div>
   )
 }

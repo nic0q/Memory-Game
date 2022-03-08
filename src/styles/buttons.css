@@ -1,4 +1,4 @@
-button{
+button {
   width: 60px;
   margin: 4px;
   height: 20px;
@@ -6,26 +6,40 @@ button{
   color: rgb(255, 255, 255);
   font-weight: bolder;
 }
-.buttons{
+.buttons {
   margin-left: 55px;
   display: flex;
 }
-.restart{
+.restart {
   border: none;
   background-color: orange;
   border-radius: 20px;
 }
-.restart:hover{
+.option {
+  border: none;
+  background-color: gray;
+  border-radius: 20px;
+}
+.active{
+  border: none;
+  background-color: rgb(54, 140, 238);
+  border-radius: 20px;
+}
+.active:hover {
+  background-color: rgb(83, 126, 226);
+  transition: 0.3s;
+}
+.restart:hover {
   background-color: rgb(241, 188, 89);
   transition: 0.3s;
 }
-.newGame{
+.newGame {
   border: none;
   background-color: rgb(194, 215, 231);
-  color: rgb(64, 77, 131);  
+  color: rgb(64, 77, 131);
   border-radius: 20px;
 }
-.newGame:hover{
+.newGame:hover {
   background-color: rgb(168, 173, 247);
   transition: 0.3s;
 }
