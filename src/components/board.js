@@ -1,99 +1,96 @@
-import emojis from "../services/tokens/emojis"
+import characters from "../services/tokens/emojis"
 // import characters from "../services/tokens/characters" // Characters for use in memory game
-import shuffle from "../utilities/shuffleList"
+import shufflePositions from "../utilities/shuffleList"
 import "../styles/board.css"
-import { useState, useEffect } from "react"
 import "../styles/grid.css"
+import "../styles/buttons.css"
+import { useState, useEffect } from "react"
 import Grid from "./Grid"
-import Options from "./Options"
-import Title from "./Title"
+import Score from "./Score"
+import Button from "./Button"
 
-const grid_positions = shuffle([
-  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-])
-
+let grid_positions = shufflePositions()
 const arr = Array(16).fill(0) // 0 means: not fliped, 1 means: fliped, 2 means: fliped and yellow
 
 export default function Tablero() {
-  const [fliped, setFliped] = useState([])
-  const [counter, setCounter] = useState(0)
-  const [reset, setReset] = useState(fliped.length !== 1 ? false : true)
-  const [time, setTime] = useState(fliped.length !== 1 ? false : true)
+  const [play1, setPlay1] = useState(false)
+  const [play2, setPlay2] = useState(false)
+  const [cardsFliped, setCardsFliped] = useState([])
+  const [standBy, setStandBy] = useState(false)
+  const [moves, setMoves] = useState(0)
 
-  const play = (card) => {
-    setFliped(() => [...fliped, card])
-    if (fliped.length === 1) {
-      setReset(true)
+  const play = (id) => {
+    if (!play1) {
+      setPlay1(true)
     } else {
-      setReset(false)
-      setTime(false)
+      setPlay2(true)
+      setStandBy(true)
+      setMoves(() => moves + 1)
     }
-    arr[card] = 1
-    setCounter(() => counter + 1)
-  }
-  const gamePlay = () => {
-    console.log(arr)
-    if (fliped.length === 2) {
-      if (emojis()[fliped[0]] !== emojis()[fliped[1]]) {
-        arr[fliped[0]] = 2
-        arr[fliped[1]] = 2
-        console.log("bad idea")
-      }
-    } else if (fliped.length === 3) {
-      if (emojis()[fliped[0]] === emojis()[fliped[1]]) {
-        setReset(false)
-        arr[fliped[0]] = 1
-        arr[fliped[1]] = 1
-      } else {
-        arr[fliped[0]] = 0
-        arr[fliped[1]] = 0
-      }
-      setFliped([fliped[2]])
-    }
+    arr[id] = 1
+    setCardsFliped([...cardsFliped, id])
   }
 
-  gamePlay()
   useEffect(() => {
-    if (reset) {
-      setTimeout(() => {
-        setTime(true)
-        console.log("ABN")
-      }, 2000)
-      setTime(false)
+    if (play1 && play2) {
+      if (characters()[cardsFliped[0]] === characters()[cardsFliped[1]]) {
+        arr[cardsFliped[0]] = 2
+        arr[cardsFliped[1]] = 2
+        setPlay1(false)
+        setPlay2(false)
+        setStandBy(false)
+        setCardsFliped([])
+      } else {
+        arr[cardsFliped[0]] = 0
+        arr[cardsFliped[1]] = 0
+        setTimeout(() => {
+          setPlay1(false)
+          setPlay2(false)
+          setStandBy(false)
+          setCardsFliped([])
+        }, 1000)
+      }
     }
-  }, [reset])
+  }, [play1, play2, cardsFliped])
 
+  const restart = () => {
+    setPlay1(false)
+    setPlay2(false)
+    setStandBy(false)
+    setCardsFliped([])
+    setMoves(0)
+    arr.fill(0)
+    grid_positions = shufflePositions()
+  }
   return (
     <div className="play">
-      <Title></Title>
+      <div className="buttons">
+        <div onClick={restart} ><Button name="Restart" styles="restart"></Button></div>
+        <Button name="NewGame" onClick={restart} styles="newGame"></Button>
+      </div>
+      <br></br>
       <div className="board">
         {grid_positions.map((n) => {
-          return arr[n] === 1 ? (
+          return arr[n] === 1 || arr[n] === 2 ? ( //
             <div key={n}>
               <Grid
-                content={emojis()[n]}
-                classNames={"front animationBack"}
+                content={characters()[n]}
+                classNames={"grid green animationBack"}
               ></Grid>
             </div>
-          ) : time ? (
+          ) : !standBy ? (
             <div key={n} onClick={() => play(n)}>
-              <Grid content={""} classNames={"grid backGr"}></Grid>
-            </div>
-          ) : arr[n] === 2 ? (
-            <div key={n}>
-              <Grid
-                content={emojis()[n]}
-                classNames={"front animationBack"}
-              ></Grid>
+              <Grid classNames={"grid hover "}></Grid>
             </div>
           ) : (
-            <div key={n} onClick={() => play(n)}>
-              <Grid content={""} classNames={"grid backGr"}></Grid>
+            <div key={n}>
+              <Grid classNames={"grid"}></Grid>
             </div>
           )
         })}
-        <Options counter={counter}></Options>
       </div>
+        <br></br>
+        <Score moves={moves}></Score>   
     </div>
   )
 }
