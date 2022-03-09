@@ -4,7 +4,7 @@ import "../styles/menu.css"
 import Button from "./Button"
 
 export default function Menu() {
-  const [active, setActive] = useState(-1)
+  const [active, setActive] = useState(1)
   const [start, setStart] = useState(false)
   const handleClick = (key) => {
     setActive(key)
@@ -22,6 +22,7 @@ export default function Menu() {
     )
   ) : (
     <div className="menu">
+      <h6>Choose One Style</h6>
       <div className="symbols">
         <div>
           {active === 1 ? (

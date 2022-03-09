@@ -8,12 +8,14 @@
   text-align: center;
   margin: 4px;
   position: relative;
+  color: white;
+  font-size: bolder;
 }
 .green{
   background-color: rgb(77, 172, 156);
 }
 .hover:hover {
-  background-color: rgb(60, 145, 194);
+  background-color: rgba(47, 59, 114, 0.719);
 }
 .animationBack {
   animation-name: back;

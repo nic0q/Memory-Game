@@ -1,16 +1,17 @@
+import shufflePositions from "../utilities/shuffleList"
 import { signs } from "../services/tokens/characters"
 import { emojis } from "../services/tokens/emojis" // Characters for use in memory game
-import shufflePositions from "../utilities/shuffleList"
+import { useState, useEffect } from "react"
+import "../styles/buttons.css"
 import "../styles/board.css"
 import "../styles/grid.css"
-import "../styles/buttons.css"
-import { useState, useEffect } from "react"
-import Grid from "./Grid"
-import Score from "./Score"
 import Button from "./Button"
+import Score from "./Score"
+import Timer from "./Timer"
+import Grid from "./Grid"
 
 let grid_positions = shufflePositions()
-const arr = Array(16).fill(0) // 0 means: not fliped, 1 means: fliped, 2 means: fliped and yellow
+const arr = Array(16).fill(0) // 0 means: not fliped, 1 means: fliped
 let characters = [] // Characters array for symbols in memory game
 
 export default function Board({ tokens }) {
@@ -20,6 +21,7 @@ export default function Board({ tokens }) {
   const [cardsFliped, setCardsFliped] = useState([])
   const [standBy, setStandBy] = useState(false)
   const [moves, setMoves] = useState(0)
+  const [reset, setReset] = useState(false)
 
   const play = (id) => {
     if (!play1) {
@@ -32,34 +34,31 @@ export default function Board({ tokens }) {
     arr[id] = 1
     setCardsFliped([...cardsFliped, id])
   }
-
+  const resetTurn = () => {
+    setPlay1(false)
+    setPlay2(false)
+    setStandBy(false)
+    setCardsFliped([])
+    setReset(true)
+  }
   useEffect(() => {
     if (play1 && play2) {
       if (characters[cardsFliped[0]] === characters[cardsFliped[1]]) {
-        arr[cardsFliped[0]] = 2
-        arr[cardsFliped[1]] = 2
-        setPlay1(false)
-        setPlay2(false)
-        setStandBy(false)
-        setCardsFliped([])
+        arr[cardsFliped[0]] = 1
+        arr[cardsFliped[1]] = 1
+        resetTurn()
       } else {
         arr[cardsFliped[0]] = 0
         arr[cardsFliped[1]] = 0
         setTimeout(() => {
-          setPlay1(false)
-          setPlay2(false)
-          setStandBy(false)
-          setCardsFliped([])
+          resetTurn()
         }, 1000)
       }
     }
   }, [play1, play2, cardsFliped])
 
   const restart = () => {
-    setPlay1(false)
-    setPlay2(false)
-    setStandBy(false)
-    setCardsFliped([])
+    resetTurn()
     setMoves(0)
     arr.fill(0)
     grid_positions = shufflePositions()
@@ -70,12 +69,12 @@ export default function Board({ tokens }) {
         <div onClick={restart}>
           <Button name="Restart" styles="restart"></Button>
         </div>
-        <Button name="NewGame" onClick={restart} styles="newGame"></Button>
+        <Button name="New Game" onClick={restart} styles="newGame"></Button>
       </div>
-      <br></br>
+      <Timer resetTime={reset}></Timer>
       <div className="board">
         {grid_positions.map((n) => {
-          return arr[n] === 1 || arr[n] === 2 ? ( //
+          return arr[n] === 1 ? (
             <div key={n}>
               <Grid
                 content={characters[n]}
@@ -93,8 +92,8 @@ export default function Board({ tokens }) {
           )
         })}
       </div>
-      <br></br>
       <Score moves={moves}></Score>
+      <br></br>
     </div>
   )
 }

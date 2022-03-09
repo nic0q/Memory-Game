@@ -17,16 +17,16 @@ button {
 }
 .option {
   border: none;
-  background-color: gray;
+  background-color: rgb(183, 190, 209);
   border-radius: 20px;
 }
 .active{
   border: none;
-  background-color: rgb(54, 140, 238);
+  background-color: rgb(38, 102, 175);
   border-radius: 20px;
 }
-.active:hover {
-  background-color: rgb(83, 126, 226);
+.option:hover {
+  background-color: rgb(113, 149, 233);
   transition: 0.3s;
 }
 .restart:hover {

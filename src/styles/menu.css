@@ -1,11 +1,19 @@
 .menu{
-  
+  margin-top: 5%;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
   text-align: center;
   align-items: center;
-  zoom: 280%;
+  zoom: 240%;
+  border: 1px solid black;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding: 35px;
 }
 .symbols{
   display: flex;
+}
+button{
+  background-color: aqua;
 }
