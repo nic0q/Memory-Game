@@ -1,6 +1,10 @@
-.board{
+.gridSize4{
   display: grid;
   grid-template-columns: auto auto auto 1fr;
+}
+.gridSize9{
+  display: grid;
+  grid-template-columns: auto auto auto auto auto 1fr;
 }
 .play{
   padding-left: 20px;
