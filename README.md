@@ -14,6 +14,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
+## Styles 
+This game supports two skins or styles (Emojis and Characters), also this styles can be changed (services/tokens file), because are agnostic to the interface, just make sure to add a minimun of 18 icons
+![image](https://user-images.githubusercontent.com/91075814/157729979-4b1de24b-e09c-4426-80be-3cca3587d63b.png)
+
 ## View
 
 ### Default Mode (4x4)
