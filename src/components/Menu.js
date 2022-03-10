@@ -20,6 +20,7 @@ export default function Menu() {
     <PlayGround tokens={styles} gridSize={gridSize}></PlayGround>
   ) : (
     <div className="menu">
+      <h6 className="title">memory</h6>
       <h6 className="option1">Select Theme</h6>
 
       <div className="symbols">
@@ -111,6 +112,7 @@ export default function Menu() {
           )}
         </div>
       </div>
+      <br></br>
       <div onClick={startGame}>
         <Button name="Start Game" styles="restart"></Button>
       </div>

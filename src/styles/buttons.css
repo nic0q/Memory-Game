@@ -7,8 +7,9 @@ button {
   font-weight: bolder;
 }
 .buttons {
-  margin-left: 55px;
+  
   display: flex;
+  justify-content: flex-end;
 }
 .restart {
   border: none;
